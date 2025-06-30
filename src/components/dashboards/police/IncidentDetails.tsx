@@ -1,17 +1,13 @@
 "use client";
 
-import { useState } from 'react';
 import type { Incident } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrafficDiversionSheet } from './TrafficDiversionSheet';
 import { AccidentSummary } from './AccidentSummary';
 import Image from 'next/image';
 import { AlertTriangle, CarFront, Gauge, Wind } from 'lucide-react';
 
 export function IncidentDetails({ incident }: { incident: Incident }) {
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-
   return (
     <Card className="h-full">
       <CardHeader>
@@ -72,11 +68,6 @@ export function IncidentDetails({ incident }: { incident: Incident }) {
             <Button variant="accent" size="lg" className="flex-1">
                 <AlertTriangle className="mr-2 h-4 w-4" /> Alert Rescue Teams
             </Button>
-            <TrafficDiversionSheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-              <Button size="lg" variant="outline" className="flex-1">
-                Divert Traffic
-              </Button>
-            </TrafficDiversionSheet>
         </div>
       </CardContent>
     </Card>
