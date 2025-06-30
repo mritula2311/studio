@@ -69,7 +69,7 @@ export function IncidentDetails({ incident }: { incident: Incident }) {
         />
 
         <div className="flex flex-col md:flex-row gap-4">
-            <Button size="lg" className="flex-1" style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}>
+            <Button variant="accent" size="lg" className="flex-1">
                 <AlertTriangle className="mr-2 h-4 w-4" /> Alert Rescue Teams
             </Button>
             <TrafficDiversionSheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>

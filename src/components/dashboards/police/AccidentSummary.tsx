@@ -42,7 +42,7 @@ export function AccidentSummary({ location, severity, sensorData }: AccidentSumm
   return (
     <Card>
       <CardHeader>
-        <CardTitle>AI Accident Summary</CardTitle>
+        <CardTitle className="text-lg">AI Accident Summary</CardTitle>
         <CardDescription>Generate a concise report of the incident using AI.</CardDescription>
       </CardHeader>
       <CardContent>
