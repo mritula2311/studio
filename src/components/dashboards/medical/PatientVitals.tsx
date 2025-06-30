@@ -5,6 +5,7 @@ import type { Incident } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { HeartPulse, Waves, Thermometer, Dot } from 'lucide-react';
+import Image from 'next/image';
 
 const severityVariantMap = {
     Low: "default",
@@ -67,6 +68,15 @@ export function PatientVitals({ incident }: { incident: Incident }) {
         </div>
       </CardHeader>
       <CardContent className="grid gap-6">
+        <div className="relative h-64 w-full rounded-lg overflow-hidden border">
+            <Image
+                src={`https://placehold.co/800x400.png`}
+                alt="Map view of accident"
+                fill
+                className="object-cover"
+                data-ai-hint="map"
+            />
+        </div>
         <div className="grid md:grid-cols-3 gap-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

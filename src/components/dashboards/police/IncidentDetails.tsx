@@ -3,7 +3,6 @@
 import type { Incident } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { AccidentSummary } from './AccidentSummary';
 import Image from 'next/image';
 import { AlertTriangle, CarFront, Gauge, Wind } from 'lucide-react';
 
@@ -19,8 +18,8 @@ export function IncidentDetails({ incident }: { incident: Incident }) {
             <Image
                 src={`https://placehold.co/800x400.png`}
                 alt="Map view of accident"
-                layout="fill"
-                objectFit="cover"
+                fill
+                className="object-cover"
                 data-ai-hint="map"
             />
         </div>
@@ -57,12 +56,6 @@ export function IncidentDetails({ incident }: { incident: Incident }) {
             </CardContent>
           </Card>
         </div>
-
-        <AccidentSummary
-            location={incident.location}
-            severity={incident.severity}
-            sensorData={`Impact: ${incident.sensorData.impact}G, Speed: ${incident.sensorData.speed}km/h, Airbags: ${incident.sensorData.airbagsDeployed ? 'Deployed' : 'Not Deployed'}`}
-        />
 
         <div className="flex flex-col md:flex-row gap-4">
             <Button variant="accent" size="lg" className="flex-1">
