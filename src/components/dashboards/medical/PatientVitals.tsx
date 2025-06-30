@@ -14,17 +14,18 @@ const severityVariantMap = {
     Critical: "destructive",
   } as const;
 
+const defaultVitals = {
+  heartRate: 70,
+  bloodPressure: '120/80',
+  respirationRate: 16,
+};
+
 export function PatientVitals({ incident }: { incident: Incident }) {
-  const [vitals, setVitals] = useState(incident.vitals || {
-    heartRate: 0,
-    bloodPressure: '0/0',
-    respirationRate: 0,
-  });
+  const [vitals, setVitals] = useState(incident.vitals || defaultVitals);
 
   useEffect(() => {
-    const initialVitals = incident.vitals || { heartRate: 70, bloodPressure: '120/80', respirationRate: 16 };
-    setVitals(initialVitals);
-
+    // The key prop on this component in the parent ensures this component
+    // remounts when the incident changes. This effect only needs to handle the interval.
     const interval = setInterval(() => {
       setVitals(prevVitals => {
         const hrFluctuation = Math.floor(Math.random() * 5) - 2;
@@ -48,7 +49,7 @@ export function PatientVitals({ incident }: { incident: Incident }) {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [incident.id, incident.vitals]);
+  }, [incident.id]);
 
   const getStatusColor = (value: number, thresholds: { normal: number, high: number}) => {
     if (value > thresholds.high) return 'text-red-500';
