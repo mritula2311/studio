@@ -10,7 +10,7 @@ export const mockIncidents: Incident[] = [
     sensorData: {
       impact: 15.2,
       speed: 85,
-      airbagsDeployed: true,
+      rescueTeamSent: true,
     },
     vitals: {
       heartRate: 125,
@@ -27,7 +27,7 @@ export const mockIncidents: Incident[] = [
     sensorData: {
       impact: 8.5,
       speed: 45,
-      airbagsDeployed: true,
+      rescueTeamSent: true,
     },
     vitals: {
       heartRate: 98,
@@ -44,7 +44,7 @@ export const mockIncidents: Incident[] = [
     sensorData: {
       impact: 3.1,
       speed: 25,
-      airbagsDeployed: false,
+      rescueTeamSent: false,
     },
     vitals: {
       heartRate: 85,
@@ -61,7 +61,7 @@ export const mockIncidents: Incident[] = [
     sensorData: {
       impact: 25.8,
       speed: 110,
-      airbagsDeployed: true,
+      rescueTeamSent: false,
     },
     vitals: {
       heartRate: 150,

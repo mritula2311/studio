@@ -10,7 +10,7 @@ export type Incident = {
   sensorData: {
     impact: number; // in G-force
     speed: number; // in km/h
-    airbagsDeployed: boolean;
+    rescueTeamSent: boolean;
   };
   vitals?: {
     heartRate: number;
