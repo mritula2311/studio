@@ -6,7 +6,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -27,12 +26,6 @@ export function AppHeader({
   selectedIncidentId: string | null;
   onSelectIncident: (id: string) => void;
 }) {
-  const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).join('');
-  }
-  
-  const userName = serviceType === "Police" ? "Officer Smith" : "Medic Johnson";
-
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 bg-background px-4 shadow-sm md:px-6">
        <Sheet>
@@ -73,15 +66,13 @@ export function AppHeader({
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full flex-shrink-0">
               <Avatar>
-                <AvatarImage src="https://placehold.co/40x40.png" alt={userName} data-ai-hint="person" />
-                <AvatarFallback>{getInitials(userName)}</AvatarFallback>
+                <AvatarImage src="https://placehold.co/40x40.png" alt="User Menu" data-ai-hint="person" />
+                <AvatarFallback>U</AvatarFallback>
               </Avatar>
               <span className="sr-only">Toggle user menu</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{userName}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
                 <Link href="/police-dashboard">Police Dashboard</Link>
             </DropdownMenuItem>
