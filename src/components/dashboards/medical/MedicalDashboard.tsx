@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from 'react';
-import { mockIncidents } from '@/lib/mock-data';
 import type { Incident } from '@/lib/types';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { IncidentList } from '@/components/dashboards/IncidentList';
@@ -10,8 +9,8 @@ import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/ca
 import { Stethoscope } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-export function MedicalDashboard() {
-  const [incidents] = useState<Incident[]>(mockIncidents);
+export function MedicalDashboard({ initialIncidents }: { initialIncidents: Incident[] }) {
+  const [incidents] = useState<Incident[]>(initialIncidents);
   const [selectedIncidentId, setSelectedIncidentId] = useState<string | null>(incidents[0]?.id || null);
 
   const selectedIncident = incidents.find(inc => inc.id === selectedIncidentId);
