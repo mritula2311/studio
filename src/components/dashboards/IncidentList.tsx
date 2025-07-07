@@ -1,8 +1,7 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, AlertTriangle, Clock } from "lucide-react";
+import { MapPin, Clock, AlertTriangle, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Incident } from "@/lib/types";
 
@@ -19,30 +18,36 @@ const severityVariantMap = {
   Critical: "destructive",
 } as const;
 
+const severityIconMap = {
+    Low: <ShieldCheck className="w-4 h-4 text-green-500" />,
+    Medium: <AlertTriangle className="w-4 h-4 text-yellow-500" />,
+    High: <AlertTriangle className="w-4 h-4 text-orange-500" />,
+    Critical: <AlertTriangle className="w-4 h-4 text-red-500" />,
+};
+
 export function IncidentList({ incidents, selectedIncidentId, onSelectIncident }: IncidentListProps) {
   return (
-    <Card className="h-full">
-      <CardHeader>
-        <CardTitle>Active Incidents</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-2">
+    <nav className="grid items-start p-2 text-sm font-medium gap-1">
         {incidents.map((incident) => (
           <button
             key={incident.id}
             onClick={() => onSelectIncident(incident.id)}
             className={cn(
-              "block w-full text-left p-4 rounded-lg border transition-all",
+              "flex flex-col items-start gap-1 rounded-lg p-3 text-left text-sm transition-all hover:bg-accent",
               selectedIncidentId === incident.id
-                ? "bg-primary/10 border-primary shadow-md"
-                : "bg-card hover:bg-muted/50"
+                ? "bg-accent text-accent-foreground"
+                : "text-muted-foreground"
             )}
             aria-pressed={selectedIncidentId === incident.id}
           >
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="font-semibold">{incident.location}</h3>
-              <Badge variant={severityVariantMap[incident.severity]}>{incident.severity}</Badge>
+             <div className="flex w-full items-start justify-between">
+                <div className="flex items-center gap-2">
+                    {severityIconMap[incident.severity]}
+                    <span className="font-semibold text-primary">{incident.location}</span>
+                </div>
+                <Badge className="ml-auto" variant={severityVariantMap[incident.severity]}>{incident.severity}</Badge>
             </div>
-            <div className="flex items-center text-sm text-muted-foreground gap-4">
+            <div className="flex items-center gap-4 pl-6 text-xs">
                 <div className="flex items-center gap-1">
                     <MapPin className="w-3 h-3" />
                     <span>{incident.coords.lat}, {incident.coords.lng}</span>
@@ -54,7 +59,6 @@ export function IncidentList({ incidents, selectedIncidentId, onSelectIncident }
             </div>
           </button>
         ))}
-      </CardContent>
-    </Card>
+    </nav>
   );
 }
