@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Incident } from '@/lib/types';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { IncidentList } from '@/components/dashboards/IncidentList';
@@ -10,8 +10,33 @@ import { Stethoscope } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 export function MedicalDashboard({ initialIncidents }: { initialIncidents: Incident[] }) {
-  const [incidents] = useState<Incident[]>(initialIncidents);
-  const [selectedIncidentId, setSelectedIncidentId] = useState<string | null>(incidents[0]?.id || null);
+  const [incidents, setIncidents] = useState<Incident[]>(initialIncidents);
+  const [selectedIncidentId, setSelectedIncidentId] = useState<string | null>(initialIncidents[0]?.id || null);
+
+  useEffect(() => {
+    const fetchIncidents = async () => {
+      try {
+        const response = await fetch('/api/incidents');
+        if (!response.ok) {
+          throw new Error('Failed to fetch incidents');
+        }
+        const newIncidents: Incident[] = await response.json();
+        setIncidents(newIncidents);
+
+        const currentSelectedStillExists = newIncidents.some(inc => inc.id === selectedIncidentId);
+
+        if (!currentSelectedStillExists) {
+            setSelectedIncidentId(newIncidents[0]?.id || null);
+        }
+      } catch (error) {
+        console.error("Error fetching dynamic incident data:", error);
+      }
+    };
+
+    const intervalId = setInterval(fetchIncidents, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [selectedIncidentId]);
 
   const selectedIncident = incidents.find(inc => inc.id === selectedIncidentId);
 
