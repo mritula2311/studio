@@ -40,7 +40,7 @@ export function MedicalDashboard({ initialIncidents }: { initialIncidents: Incid
           selectedIncidentId={selectedIncidentId}
           onSelectIncident={setSelectedIncidentId}
         />
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 bg-muted/40">
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 bg-gray-50 dark:bg-background">
             {selectedIncident ? (
               <PatientVitals incident={selectedIncident} key={selectedIncident.id} />
             ) : (

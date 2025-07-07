@@ -22,7 +22,7 @@ const severityIconMap = {
     Low: <ShieldCheck className="w-4 h-4 text-green-500" />,
     Medium: <AlertTriangle className="w-4 h-4 text-yellow-500" />,
     High: <AlertTriangle className="w-4 h-4 text-orange-500" />,
-    Critical: <AlertTriangle className="w-4 h-4 text-red-500" />,
+    Critical: <AlertTriangle className="w-4 h-4 text-destructive" />,
 };
 
 export function IncidentList({ incidents, selectedIncidentId, onSelectIncident }: IncidentListProps) {
@@ -33,9 +33,9 @@ export function IncidentList({ incidents, selectedIncidentId, onSelectIncident }
             key={incident.id}
             onClick={() => onSelectIncident(incident.id)}
             className={cn(
-              "flex flex-col items-start gap-1 rounded-lg p-3 text-left text-sm transition-all hover:bg-accent",
+              "flex flex-col items-start gap-1 rounded-lg p-3 text-left text-sm transition-all hover:bg-muted border-l-4 border-transparent",
               selectedIncidentId === incident.id
-                ? "bg-accent text-accent-foreground"
+                ? "bg-muted border-primary text-primary"
                 : "text-muted-foreground"
             )}
             aria-pressed={selectedIncidentId === incident.id}

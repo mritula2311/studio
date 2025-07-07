@@ -8,8 +8,8 @@ import { AlertTriangle, Gauge, Wind, Send } from 'lucide-react';
 
 export function IncidentDetails({ incident }: { incident: Incident }) {
   return (
-    <Card className="h-full overflow-hidden shadow-lg">
-      <CardHeader className="bg-muted/30">
+    <Card className="h-full overflow-hidden border-0 shadow-none">
+      <CardHeader>
         <div className="flex items-center justify-between">
             <div>
                 <CardTitle>Incident Details: {incident.id}</CardTitle>

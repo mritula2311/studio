@@ -21,7 +21,7 @@ const defaultVitals = {
 };
 
 export function PatientVitals({ incident }: { incident: Incident }) {
-  const [vitals, setVitals] = useState(() => incident.vitals || defaultVitals);
+  const [vitals, setVitals] = useState(incident.vitals ? { ...incident.vitals } : defaultVitals);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -55,8 +55,8 @@ export function PatientVitals({ incident }: { incident: Incident }) {
   }
 
   return (
-    <Card className="h-full overflow-hidden shadow-lg">
-      <CardHeader className="bg-muted/30">
+    <Card className="h-full overflow-hidden border-0 shadow-none">
+      <CardHeader>
         <div className="flex justify-between items-start">
             <div>
                 <CardTitle>Patient Vitals: {incident.id}</CardTitle>
