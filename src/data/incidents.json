@@ -8,8 +8,7 @@
     "coords": { "lat": 37.29, "lng": -122.03 },
     "sensorData": {
       "impact": 15.2,
-      "speed": 85,
-      "rescueTeamSent": true
+      "speed": 85
     },
     "vitals": {
       "heartRate": 125,
@@ -25,8 +24,7 @@
     "coords": { "lat": 37.44, "lng": -122.14 },
     "sensorData": {
       "impact": 8.5,
-      "speed": 45,
-      "rescueTeamSent": true
+      "speed": 45
     },
     "vitals": {
       "heartRate": 98,
@@ -42,8 +40,7 @@
     "coords": { "lat": 37.42, "lng": -122.14 },
     "sensorData": {
       "impact": 3.1,
-      "speed": 25,
-      "rescueTeamSent": false
+      "speed": 25
     },
     "vitals": {
       "heartRate": 85,
@@ -59,8 +56,7 @@
     "coords": { "lat": 37.29, "lng": -122.03 },
     "sensorData": {
       "impact": 25.8,
-      "speed": 110,
-      "rescueTeamSent": true
+      "speed": 110
     },
     "vitals": {
       "heartRate": 150,
