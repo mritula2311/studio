@@ -42,11 +42,11 @@ export async function generateAccidentReport(
   return generateAccidentReportFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'generateAccidentReportPrompt',
+const policePrompt = ai.definePrompt({
+  name: 'generatePoliceAccidentReportPrompt',
   input: { schema: GenerateAccidentReportInputSchema },
   output: { schema: GenerateAccidentReportOutputSchema },
-  prompt: `You are an expert accident analyst. Based on the provided data, generate a concise report for the specified role.
+  prompt: `You are an expert accident analyst. Based on the provided data, generate a concise report for a police officer.
 
 **Incident Data:**
 - Location: {{{incident.location}}}
@@ -59,20 +59,38 @@ const prompt = ai.definePrompt({
 - Respiration Rate: {{{incident.vitals.respirationRate}}} breaths/min
 {{/if}}
 
-**Role:** {{{role}}}
-
 **Instructions:**
-{{#if (eq role "Police")}}
 Generate a report for a police officer. Focus on the situation from a law enforcement and traffic management perspective. Include:
 1.  A brief summary of the accident's severity based on impact and speed.
 2.  Potential traffic implications and suggestions (e.g., road closure, diversion).
 3.  Likely need for additional emergency services (e.g., fire, heavy rescue).
-{{else if (eq role "Medical")}}
+
+Produce the output as a single block of text for the report.
+`,
+});
+
+const medicalPrompt = ai.definePrompt({
+  name: 'generateMedicalAccidentReportPrompt',
+  input: { schema: GenerateAccidentReportInputSchema },
+  output: { schema: GenerateAccidentReportOutputSchema },
+  prompt: `You are an expert accident analyst. Based on the provided data, generate a concise report for a medical first responder.
+
+**Incident Data:**
+- Location: {{{incident.location}}}
+- Severity: {{{incident.severity}}}
+- Impact Force: {{{incident.sensorData.impact}}} G
+- Speed at Impact: {{{incident.sensorData.speed}}} km/h
+{{#if incident.vitals}}
+- Heart Rate: {{{incident.vitals.heartRate}}} BPM
+- Blood Pressure: {{{incident.vitals.bloodPressure}}} mmHg
+- Respiration Rate: {{{incident.vitals.respirationRate}}} breaths/min
+{{/if}}
+
+**Instructions:**
 Generate a report for a medical first responder. Focus on the likely medical situation. Include:
 1.  An assessment of potential injuries based on the G-force and speed.
 2.  Key vitals to watch and their implications.
 3.  Recommendations for pre-arrival preparation (e.g., prepare trauma bay, specific equipment).
-{{/if}}
 
 Produce the output as a single block of text for the report.
 `,
@@ -85,7 +103,11 @@ const generateAccidentReportFlow = ai.defineFlow(
     outputSchema: GenerateAccidentReportOutputSchema,
   },
   async (input) => {
-    const { output } = await prompt(input);
+    let selectedPrompt = policePrompt;
+    if (input.role === 'Medical') {
+      selectedPrompt = medicalPrompt;
+    }
+    const { output } = await selectedPrompt(input);
     return output!;
   }
 );
