@@ -32,7 +32,7 @@ export function AccidentReport({ incident, serviceType }: AccidentReportProps) {
       }
     }
     getReport();
-  }, [incident, serviceType]);
+  }, [incident.id, serviceType]);
 
   return (
     <Card>
