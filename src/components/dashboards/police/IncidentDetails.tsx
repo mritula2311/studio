@@ -1,12 +1,17 @@
+
 "use client";
 
 import type { Incident } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import { AlertTriangle, Gauge, Wind } from 'lucide-react';
+import MapComponent from '../GoogleMap';
 
 export function IncidentDetails({ incident }: { incident: Incident }) {
+  if (!incident) {
+    return null;
+  }
+  
   return (
     <Card className="h-full overflow-hidden border-0 shadow-none">
       <CardHeader>
@@ -24,13 +29,7 @@ export function IncidentDetails({ incident }: { incident: Incident }) {
         <div className="grid grid-cols-1 lg:grid-cols-3">
             <div className="lg:col-span-2 p-6">
                 <div className="relative h-96 w-full rounded-lg overflow-hidden border shadow-inner">
-                    <Image
-                        src={`https://placehold.co/800x600.png`}
-                        alt="Map view of accident"
-                        fill
-                        className="object-cover"
-                        data-ai-hint="map"
-                    />
+                    <MapComponent center={incident.coords} />
                 </div>
             </div>
             <div className="lg:col-span-1 bg-muted/10 p-6 space-y-6 border-l">

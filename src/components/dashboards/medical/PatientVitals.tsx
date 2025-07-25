@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -5,7 +6,8 @@ import type { Incident } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { HeartPulse, Waves, Thermometer, Dot, ShieldAlert } from 'lucide-react';
-import Image from 'next/image';
+import MapComponent from '../GoogleMap';
+
 
 const severityVariantMap = {
     Low: "default",
@@ -14,18 +16,17 @@ const severityVariantMap = {
     Critical: "destructive",
   } as const;
 
-const defaultVitals = {
-  heartRate: 70,
-  bloodPressure: '120/80',
-  respirationRate: 16,
-};
-
 export function PatientVitals({ incident }: { incident: Incident }) {
-  const [vitals, setVitals] = useState(incident.vitals ? { ...incident.vitals } : defaultVitals);
+    const [vitals, setVitals] = useState(incident.vitals);
 
   useEffect(() => {
+    if (!incident.vitals) return;
+    setVitals(incident.vitals);
+
     const interval = setInterval(() => {
       setVitals(prevVitals => {
+        if (!prevVitals) return prevVitals;
+
         const hrFluctuation = Math.floor(Math.random() * 5) - 2;
         const respFluctuation = Math.floor(Math.random() * 3) - 1;
         
@@ -47,11 +48,31 @@ export function PatientVitals({ incident }: { incident: Incident }) {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [incident.id]);
+  }, [incident.id, incident.vitals]);
+
 
   const getStatusColor = (value: number, thresholds: { normal: number, high: number}) => {
     if (value > thresholds.high || value < thresholds.normal) return 'text-destructive';
     return 'text-green-500';
+  }
+
+  if (!vitals) {
+    return (
+        <Card className="h-full overflow-hidden border-0 shadow-none">
+            <CardHeader>
+                <div className="flex justify-between items-start">
+                    <div>
+                        <CardTitle>Patient Vitals: {incident.id}</CardTitle>
+                        <CardDescription>{incident.location}</CardDescription>
+                    </div>
+                    <Badge variant={severityVariantMap[incident.severity]} className="text-base px-3 py-1">{incident.severity}</Badge>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <p>No vitals available for this incident.</p>
+            </CardContent>
+        </Card>
+    )
   }
 
   return (
@@ -68,13 +89,7 @@ export function PatientVitals({ incident }: { incident: Incident }) {
       <CardContent className="grid lg:grid-cols-2 gap-6 p-6">
         <div className="space-y-6">
             <div className="relative h-64 w-full rounded-lg overflow-hidden border shadow-inner">
-                <Image
-                    src={`https://placehold.co/800x400.png`}
-                    alt="Map view of accident"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="map"
-                />
+                <MapComponent center={incident.coords} />
             </div>
             <Card>
                 <CardHeader>
