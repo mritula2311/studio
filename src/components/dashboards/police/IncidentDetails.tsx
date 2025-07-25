@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Gauge, Wind } from 'lucide-react';
 import MapComponent from '../GoogleMap';
+import { AccidentReport } from '../AccidentReport';
 
 export function IncidentDetails({ incident }: { incident: Incident }) {
   if (!incident) {
@@ -54,6 +55,7 @@ export function IncidentDetails({ incident }: { incident: Incident }) {
                     <p className="text-xs text-muted-foreground">Vehicle speed</p>
                     </CardContent>
                 </Card>
+                <AccidentReport incident={incident} serviceType="Police" />
             </div>
         </div>
       </CardContent>

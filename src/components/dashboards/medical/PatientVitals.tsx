@@ -5,8 +5,9 @@ import { useState, useEffect } from 'react';
 import type { Incident } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { HeartPulse, Waves, Thermometer, Dot, ShieldAlert } from 'lucide-react';
+import { HeartPulse, Waves, Thermometer, Dot } from 'lucide-react';
 import MapComponent from '../GoogleMap';
+import { AccidentReport } from '../AccidentReport';
 
 
 const severityVariantMap = {
@@ -20,8 +21,9 @@ export function PatientVitals({ incident }: { incident: Incident }) {
     const [vitals, setVitals] = useState(incident.vitals);
 
   useEffect(() => {
-    if (!incident.vitals) return;
     setVitals(incident.vitals);
+
+    if (!incident.vitals) return;
 
     const interval = setInterval(() => {
       setVitals(prevVitals => {
@@ -48,7 +50,7 @@ export function PatientVitals({ incident }: { incident: Incident }) {
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [incident.id, incident.vitals]);
+  }, [incident]);
 
 
   const getStatusColor = (value: number, thresholds: { normal: number, high: number}) => {
@@ -91,20 +93,7 @@ export function PatientVitals({ incident }: { incident: Incident }) {
             <div className="relative h-64 w-full rounded-lg overflow-hidden border shadow-inner">
                 <MapComponent center={incident.coords} />
             </div>
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-lg">Pre-arrival Preparation</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <ul className="list-disc list-inside space-y-2 text-sm">
-                        <li>Prepare trauma bay for high-impact injuries.</li>
-                        {vitals.heartRate > 100 && <li>Consider tachycardia protocol.</li>}
-                        {vitals.respirationRate > 20 && <li>Have respiratory support on standby.</li>}
-                        {incident.severity === "Critical" && <li className="font-semibold text-destructive flex items-center gap-2"><ShieldAlert className="w-4 h-4" /> Alert surgical team for immediate availability.</li>}
-                        <li>Patient vitals indicate potential for shock, prepare fluids and pressors.</li>
-                    </ul>
-                </CardContent>
-            </Card>
+             <AccidentReport incident={incident} serviceType="Medical" />
         </div>
         <div className="space-y-6">
             <Card>
